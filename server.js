@@ -19,9 +19,9 @@ wss.on('connection', function(socket) {
     //work out what the user sent to use
     if(typeof obj.text != 'undefined'){
       var text = obj.text;
-      console.log(addCardToArray(text));
+      var id = addCardToArray(text);
       wss.clients.forEach(function each(client) {
-        var json = JSON.stringify({ text: text });
+        var json = JSON.stringify({ text: text,  id: id});
         client.send(json);
       });
     }
@@ -33,7 +33,7 @@ wss.on('connection', function(socket) {
 
 
 function addCardToArray(text){
-  cards.push({name: text, number: "0"});
-  console.log(cards);
+  cards.push({name: text, votes: "0", });
+  console.log(cards[1]);
   return cards.length;  
 }

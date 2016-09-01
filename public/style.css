@@ -34,6 +34,17 @@ ul li, .droppable, .draggable {
   padding: 1em;
   word-break: break-all;
   overflow: hidden;
+  position: relative;
+}
+
+ul li .plus{
+  position: absolute;
+  bottom:0;
+  right:0;
+  background-image: url('images/plus-icon.png');
+  background-size: 100%;
+  width: 100px;
+  height: 100px;
 }
 
 input,button {

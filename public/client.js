@@ -49,7 +49,11 @@ socket.onmessage = function (event) {
 	console.log(json);
 	var obj = JSON.parse(json);
 	console.log(obj);
-  $("ul").append($("<li>").text(obj.text));
+  	$("ul").append(
+		$("<li>").text(obj.text)
+		.attr('data-id', obj.id)
+		.append('<span class="plus"></span>')
+	);
 }
 
 function hyphenate(text){
