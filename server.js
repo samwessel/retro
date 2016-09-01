@@ -10,7 +10,6 @@ server.listen(8080, '127.0.0.1');
 var wss = new WSS({ port: 8081 });
 wss.on('connection', function(socket) {
 
-
   socket.on('message', function(message) {
 
     wss.clients.forEach(function each(client) {

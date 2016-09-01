@@ -17,15 +17,14 @@ ul,li{
 
 ul{
   overflow:hidden;
-  padding: 10px 10px 10px 0;
 }
 
 ul li a{
   text-decoration:none;
 }
 
-ul li{
-  margin:1em 1em 1em 0;
+ul li, .droppable, .draggable {
+  margin:1em;
   float:left;
   color:#000;
   background:#ffc;
@@ -39,4 +38,17 @@ ul li{
 
 input,button {
 	padding: 3px;
+}
+
+#container {
+  display: flex;
+}
+
+.category {
+  background-color: #999;
+  margin: 10px;
+}
+
+.droppable {
+  background: #666;
 }
