@@ -45,9 +45,10 @@ socket.onopen = function(event) {
 
 socket.onmessage = function (event) {
 	var json = event.data;
+	console.log(json);
 	var obj = JSON.parse(json);
-	var message = JSON.parse(obj.message)
-  $("ul").append($("<li>").text(message.text));
+	console.log(obj);
+  $("ul").append($("<li>").text(obj.text));
 }
 
 function hyphenate(text){
