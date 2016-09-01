@@ -24,20 +24,39 @@ wss.on('connection', function(socket) {
 
     var obj = JSON.parse(message);
 
+    //If a vote feature
+    if(typeof obj.voted != 'undefined'){
+      var id = obj.id;
+      console.log(obj.voted + ' = '+ cards[id].votes);
+
+      votes = cards[id].votes + 1;
+
+      cards[id].votes = votes;
+
+      wss.clients.forEach(function each(client) {
+        var json = JSON.stringify({id: id, votes: votes });
+        console.log("Sending to clients: " + json);
+        client.send(json);
+      });
+
+      return;
+    }
+
     //work out what the user sent to us
     if(typeof obj.text != 'undefined'){
       var text = obj.text;
       var category = obj.category;
       var id = obj.id;
+      var votes = 0;
 
       if (typeof id == 'undefined') {
         id = addCardToArray(text, category);
       } else {
-        cards[id] = {name: text, category: category, votes: 0 };
+        cards[id] = {name: text, category: category};
       }
 
       wss.clients.forEach(function each(client) {
-        var json = JSON.stringify({ text: text, category: category, id: id });
+        var json = JSON.stringify({ text: text, category: category, id: id, votes: votes });
         console.log("Sending to clients: " + json);
         client.send(json);
       });
@@ -52,4 +71,9 @@ wss.on('connection', function(socket) {
 function addCardToArray(text, category){
   cards.push({name: text, category: category, votes: 0 });
   return cards.length-1;  
+}
+
+function isNaN(x)
+{ 
+    return x != x; 
 }

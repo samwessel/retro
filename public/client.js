@@ -51,9 +51,12 @@ $(function(){
 
 
 function setVoteEvent(){
+	$('.plus').off('click');
 	$('.plus').on('click',function(){
-		var id = $(this).parent().data('id');
-		console.log(id);
+		var id = $(this).parent().attr('id');
+		//need to send the vote to the system
+		var json = JSON.stringify({voted: 1, id: id });
+		socket.send(json);
 	});
 }
 
@@ -64,14 +67,19 @@ socket.onopen = function(event) {
 socket.onmessage = function (event) {
 	var json = event.data;
 	var obj = JSON.parse(json);
-	console.log(obj);
+
+	if(typeof obj.text == 'undefined'){
+		$("#"+obj.id).attr('data-votes',obj.votes);
+		return;
+	}
 
 	$("#"+obj.id).remove();
 
   	$("#"+obj.category+" ul").append(
-		$("<li>").text(obj.text).attr('id', obj.id).draggable({ revert: true, zIndex: 100 })
+		$("<li>").text(obj.text).attr('id', obj.id).data('votes', obj.votes).draggable({ revert: true, zIndex: 100 })
 		.append('<span class="plus"></span>')
 	);
+	setTimeout ( "setVoteEvent()", 100 );
 }
 
 function hyphenate(text){
