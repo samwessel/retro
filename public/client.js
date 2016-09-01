@@ -34,7 +34,10 @@ $(function(){
 		drop: function(event, ui) {
 			var text = ui.draggable.text();
 			var category = $(this).closest(".category").attr("id");
-			var json = JSON.stringify({ text: text,  category: category });
+			var id = ui.draggable.attr("id");
+			var json = JSON.stringify({ text: text,  category: category, id: id });
+			console.log(json);
+
 			socket.send(json);
 			ui.draggable.remove();
 		}
@@ -47,12 +50,16 @@ socket.onopen = function(event) {
 
 socket.onmessage = function (event) {
 	var json = event.data;
-	console.log(json);
 	var obj = JSON.parse(json);
-	console.log(obj);
+
+	$("#"+obj.id).remove();
+
   	$("#"+obj.category+" ul").append(
 		$("<li>").text(obj.text)
-		.attr('data-id', obj.id)
+		.attr('id', obj.id)
+		.draggable({
+			revert: true
+		})
 		.append('<span class="plus"></span>')
 	);
 }

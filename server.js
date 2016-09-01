@@ -21,7 +21,15 @@ wss.on('connection', function(socket) {
     if(typeof obj.text != 'undefined'){
       var text = obj.text;
       var category = obj.category;
-      var id = addCardToArray(text, category);
+      var id = obj.id;
+
+      console.log(id);
+      if (typeof id == 'undefined') {
+        id = addCardToArray(text, category);
+      } else {
+        cards[id] = {name: text, category: category, votes: 0 };
+      }
+      console.log(id);
 
       wss.clients.forEach(function each(client) {
         var json = JSON.stringify({ text: text, category: category, id: id });
@@ -37,7 +45,6 @@ wss.on('connection', function(socket) {
 
 
 function addCardToArray(text, category){
-  cards.push({name: text, category: category, votes: "0" });
-  console.log("Adding to local state: " + cards[1]);
-  return cards.length;  
+  cards.push({name: text, category: category, votes: 0 });
+  return cards.length-1;  
 }
