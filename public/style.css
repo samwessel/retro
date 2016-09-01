@@ -37,12 +37,13 @@ ul li, .draggable {
 
 ul li .plus{
   position: absolute;
-  bottom:0;
-  right:0;
-  background-image: url('images/plus-icon.png');
+  bottom:0px;
+  right:0px;
+  background-image: url('images/plus.svg');
   background-size: 100%;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
 }
 
 input,button {

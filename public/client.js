@@ -39,9 +39,18 @@ $(function(){
 
 			socket.send(json);
 			ui.draggable.remove();
+			setTimeout ( "setVoteEvent()", 100 );
 		}
 	});
 });
+
+
+function setVoteEvent(){
+	$('.plus').on('click',function(){
+		var id = $(this).parent().data('id');
+		console.log(id);
+	});
+}
 
 var socket = new WebSocket('ws://localhost:8081/');
 socket.onopen = function(event) {
