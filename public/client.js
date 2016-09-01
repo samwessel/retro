@@ -17,9 +17,14 @@ $(function(){
 			return;
 		}
 
-		$("#newitems").append($("<div>").addClass("draggable").text(text).draggable({
-			revert: true
-		}));
+		$("#newitems").append(
+			$("<li>")
+			.addClass("draggable")
+			.text(text)
+			.draggable({
+				revert: true
+			})
+		);
 
 		$("#description").val("");
 	})
@@ -27,13 +32,10 @@ $(function(){
 	$( ".droppable" ).droppable({
 		hoverClass: "drop-hover",
 		drop: function(event, ui) {
-			//alert("dropped in category " + $(this).closest(".category").attr("id"));
-
 			var text = ui.draggable.text();
-			var json = JSON.stringify({text });
-			console.log(json);
+			var category = $(this).closest(".category").attr("id");
+			var json = JSON.stringify({ text: text,  category: category });
 			socket.send(json);
-
 			ui.draggable.remove();
 		}
 	});
@@ -41,7 +43,6 @@ $(function(){
 
 var socket = new WebSocket('ws://localhost:8081/');
 socket.onopen = function(event) {
-  
 }
 
 socket.onmessage = function (event) {
@@ -49,7 +50,7 @@ socket.onmessage = function (event) {
 	console.log(json);
 	var obj = JSON.parse(json);
 	console.log(obj);
-  	$("ul").append(
+  	$("#"+obj.category+" ul").append(
 		$("<li>").text(obj.text)
 		.attr('data-id', obj.id)
 		.append('<span class="plus"></span>')
