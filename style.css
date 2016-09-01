@@ -33,6 +33,8 @@ ul li{
   height:10em;
   width:10em;
   padding:1em;
+  word-break: break-all;
+  overflow: hidden;
 }
 
 input,button {
