@@ -47,6 +47,7 @@ $(function(){
 
 
 function setVoteEvent(){
+	$('.plus').off('click');
 	$('.plus').on('click',function(){
 		var id = $(this).parent().attr('id');
 		var text = $(this).parent().text();
