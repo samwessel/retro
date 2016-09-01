@@ -12,6 +12,13 @@ var cards = [];
 var wss = new WSS({ port: 8081 });
 wss.on('connection', function(socket) {
 
+  for(var i=0; i<cards.length; i++) {
+      var item = cards[i];
+      var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
+      console.log("Sending to clients: " + json);
+      socket.send(json);
+  }
+
   socket.on('message', function(message) {
     console.log("Received: " + message);
 
@@ -23,13 +30,11 @@ wss.on('connection', function(socket) {
       var category = obj.category;
       var id = obj.id;
 
-      console.log(id);
       if (typeof id == 'undefined') {
         id = addCardToArray(text, category);
       } else {
         cards[id] = {name: text, category: category, votes: 0 };
       }
-      console.log(id);
 
       wss.clients.forEach(function each(client) {
         var json = JSON.stringify({ text: text, category: category, id: id });

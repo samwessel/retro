@@ -60,6 +60,7 @@ socket.onopen = function(event) {
 socket.onmessage = function (event) {
 	var json = event.data;
 	var obj = JSON.parse(json);
+	console.log(obj);
 
 	$("#"+obj.id).remove();
 
