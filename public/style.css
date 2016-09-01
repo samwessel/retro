@@ -22,7 +22,7 @@ ul li a{
   text-decoration:none;
 }
 
-ul li, .droppable, .draggable {
+ul li, .draggable {
   margin:1em;
   float:left;
   color:#000;
@@ -51,6 +51,8 @@ input,button {
 
 #container {
   display: flex;
+  align-items: stretch;
+  justify-content: center;
 }
 
 .category {
@@ -64,4 +66,9 @@ input,button {
 
 .drop-hover {
   background: #ccc;
+}
+
+h1, h2 {
+  text-align: center;
+  margin: 10px;
 }
