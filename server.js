@@ -7,6 +7,8 @@ var app = express().use(express.static('public'));
 var server = http.createServer(app);
 server.listen(8080, '127.0.0.1');
 
+var showResults = false
+
 var cards = [];
 
 var wss = new WSS({ port: 8081 });
@@ -15,6 +17,9 @@ wss.on('connection', function(socket) {
   for(var i=0; i<cards.length; i++) {
       var item = cards[i];
       var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
+      console.log("Sending to clients: " + json);
+      socket.send(json);
+      json = JSON.stringify({type: 'showresults'});
       console.log("Sending to clients: " + json);
       socket.send(json);
   }

@@ -1,6 +1,8 @@
 var categories = ["What went well?", "What could have gone better?"];
 //var categories = ["Mad", "Sad", "Glad"];
 
+var showResultsAlways = false;
+
 $(function(){
 	categories.forEach(function(category) {
 		$("#wall").append(
@@ -89,6 +91,7 @@ socket.onmessage = function (event) {
 	if(typeof obj.type != 'undefined'){
 		switch (obj.type) {
 			case 'showresults':
+			showResultsAlways = true;
 				showResults();
 				break;
 		
@@ -100,6 +103,9 @@ socket.onmessage = function (event) {
 
 	if(typeof obj.text == 'undefined'){
 		$("#"+obj.id).data('votes',obj.votes);
+		if(showResultsAlways){
+			showResults();
+		}
 		return;
 	}
 
@@ -118,9 +124,12 @@ function hyphenate(text){
 
 
 function showResults(){
- $('li').each(function(){
-	 var votes = $(this).data().votes;
-	 console.log(votes);
-	 $(this).append('<span class="votes">'+votes+'</span>');
- });
+	$('li .votes').each(function(){
+		$(this).remove();
+	})
+	$('li').each(function(){
+
+		var votes = $(this).data().votes;
+		$(this).append('<span class="votes">'+votes+'</span>');
+	});
 }
