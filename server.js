@@ -24,6 +24,14 @@ wss.on('connection', function(socket) {
 
     var obj = JSON.parse(message);
 
+    if(typeof obj.showResults != 'undefined'){
+      wss.clients.forEach(function each(client) {
+        var json = JSON.stringify({type: 'showresults'});
+        console.log("Sending to clients: " + json);
+        client.send(json);
+      });
+    }
+
     //If a vote feature
     if(typeof obj.voted != 'undefined'){
       var id = obj.id;
@@ -71,9 +79,4 @@ wss.on('connection', function(socket) {
 function addCardToArray(text, category){
   cards.push({name: text, category: category, votes: 0 });
   return cards.length-1;  
-}
-
-function isNaN(x)
-{ 
-    return x != x; 
 }
