@@ -17,16 +17,15 @@ $(function(){
 			return;
 		}
 
-		var json = JSON.stringify({text });
-		console.log(json);
-		socket.send(json);
+		$("#newitems").append($("<div>").addClass("draggable").text(text).draggable({
+			stop: function() {
+				$(this).remove()
+			}
+		}));
+
 		$("#description").val("");
 	})
 
-	$( ".draggable" ).draggable({
-		revert: true
-	});
-	
 	$( ".droppable" ).droppable({
 		drop: function(event, ui) {
 			alert("dropped in category " + $(this).closest(".category").attr("id"));
