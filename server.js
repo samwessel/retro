@@ -12,7 +12,6 @@ var cards = [];
 var wss = new WSS({ port: 8081 });
 wss.on('connection', function(socket) {
 
-
   socket.on('message', function(message) {
 
     var obj = JSON.parse(message);
