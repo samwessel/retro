@@ -22,7 +22,8 @@ $(function(){
 			.addClass("draggable")
 			.text(text)
 			.draggable({
-				revert: true
+				revert: true,
+				zIndex: 100
 			})
 		);
 
@@ -63,7 +64,7 @@ socket.onmessage = function (event) {
 	$("#"+obj.id).remove();
 
   	$("#"+obj.category+" ul").append(
-		$("<li>").text(obj.text).attr('id', obj.id).draggable({ revert: true })
+		$("<li>").text(obj.text).attr('id', obj.id).draggable({ revert: true, zIndex: 100 })
 		.append('<span class="plus"></span>')
 	);
 }

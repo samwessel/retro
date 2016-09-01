@@ -6,7 +6,6 @@
 body{
   font-family:arial,sans-serif;
   font-size:100%;
-  margin:3em;
   background:#666;
   color:#fff;
 }
@@ -67,6 +66,10 @@ input,button {
 
 .drop-hover {
   background: #ccc;
+}
+
+.ui-draggable-dragging {
+  box-shadow:5px 5px 5px #666;
 }
 
 h1, h2 {
