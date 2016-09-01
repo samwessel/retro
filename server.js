@@ -13,15 +13,27 @@ var wss = new WSS({ port: 8081 });
 wss.on('connection', function(socket) {
 
   socket.on('message', function(message) {
+    console.log("Received: " + message);
 
     var obj = JSON.parse(message);
 
-    //work out what the user sent to use
+    //work out what the user sent to us
     if(typeof obj.text != 'undefined'){
       var text = obj.text;
-      var id = addCardToArray(text);
+      var category = obj.category;
+      var id = obj.id;
+
+      console.log(id);
+      if (typeof id == 'undefined') {
+        id = addCardToArray(text, category);
+      } else {
+        cards[id] = {name: text, category: category, votes: 0 };
+      }
+      console.log(id);
+
       wss.clients.forEach(function each(client) {
-        var json = JSON.stringify({ text: text,  id: id});
+        var json = JSON.stringify({ text: text, category: category, id: id });
+        console.log("Sending to clients: " + json);
         client.send(json);
       });
     }
@@ -32,8 +44,7 @@ wss.on('connection', function(socket) {
 });
 
 
-function addCardToArray(text){
-  cards.push({name: text, votes: "0", });
-  console.log(cards[1]);
-  return cards.length;  
+function addCardToArray(text, category){
+  cards.push({name: text, category: category, votes: 0 });
+  return cards.length-1;  
 }

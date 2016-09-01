@@ -17,9 +17,14 @@ $(function(){
 			return;
 		}
 
-		$("#newitems").append($("<div>").addClass("draggable").text(text).draggable({
-			revert: true
-		}));
+		$("#newitems").append(
+			$("<li>")
+			.addClass("draggable")
+			.text(text)
+			.draggable({
+				revert: true
+			})
+		);
 
 		$("#description").val("");
 	})
@@ -27,13 +32,13 @@ $(function(){
 	$( ".droppable" ).droppable({
 		hoverClass: "drop-hover",
 		drop: function(event, ui) {
-			var cat = $(this).closest(".category").attr("id");
-
 			var text = ui.draggable.text();
-			var json = JSON.stringify({text });
+			var category = $(this).closest(".category").attr("id");
+			var id = ui.draggable.attr("id");
+			var json = JSON.stringify({ text: text,  category: category, id: id });
 			console.log(json);
+
 			socket.send(json);
-			
 			ui.draggable.remove();
 			setTimeout ( "setVoteEvent()", 100 );
 		}
@@ -50,17 +55,20 @@ function setVoteEvent(){
 
 var socket = new WebSocket('ws://localhost:8081/');
 socket.onopen = function(event) {
-  
 }
 
 socket.onmessage = function (event) {
 	var json = event.data;
-	console.log(json);
 	var obj = JSON.parse(json);
-	console.log(obj);
-  	$("ul").append(
+
+	$("#"+obj.id).remove();
+
+  	$("#"+obj.category+" ul").append(
 		$("<li>").text(obj.text)
-		.attr('data-id', obj.id)
+		.attr('id', obj.id)
+		.draggable({
+			revert: true
+		})
 		.append('<span class="plus"></span>')
 	);
 }
