@@ -52,3 +52,7 @@ input,button {
 .droppable {
   background: #666;
 }
+
+.drop-hover {
+  background: #ccc;
+}

@@ -18,22 +18,23 @@ $(function(){
 		}
 
 		$("#newitems").append($("<div>").addClass("draggable").text(text).draggable({
-			stop: function() {
-				$(this).remove()
-			}
+			revert: true
 		}));
 
 		$("#description").val("");
 	})
 
 	$( ".droppable" ).droppable({
+		hoverClass: "drop-hover",
 		drop: function(event, ui) {
-			alert("dropped in category " + $(this).closest(".category").attr("id"));
+			//alert("dropped in category " + $(this).closest(".category").attr("id"));
 
 			var text = ui.draggable.text();
 			var json = JSON.stringify({text });
 			console.log(json);
 			socket.send(json);
+
+			ui.draggable.remove();
 		}
 	});
 });
