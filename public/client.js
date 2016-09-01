@@ -3,7 +3,7 @@ var categories = ["What went well?", "What could have gone better?"];
 
 $(function(){
 	categories.forEach(function(category) {
-		$("#container").append(
+		$("#wall").append(
 			$("<div>").addClass("category").attr("id", hyphenate(category))
 				.append($("<h2>").text(category))
 				.append($("<ul>"))
@@ -17,7 +17,7 @@ $(function(){
 			return;
 		}
 
-		$("#newitems").append(
+		$("#myitems").append(
 			$("<li>")
 			.addClass("draggable")
 			.text(text)
@@ -33,14 +33,18 @@ $(function(){
 	$( ".category" ).droppable({
 		hoverClass: "drop-hover",
 		drop: function(event, ui) {
-			var text = ui.draggable.text();
-			var category = $(this).closest(".category").attr("id");
-			var id = ui.draggable.attr("id");
-			var json = JSON.stringify({ text: text,  category: category, id: id });
+			var category = $(this).attr("id");
+			var previousCategory = ui.draggable.closest(".category").attr("id")
+			
+			if (category != previousCategory) {
+				var text = ui.draggable.text();
+				var id = ui.draggable.attr("id");
+				var json = JSON.stringify({ text: text,  category: category, id: id });
 
-			socket.send(json);
-			ui.draggable.remove();
-			setTimeout ( "setVoteEvent()", 100 );
+				socket.send(json);
+				ui.draggable.remove();
+				setTimeout ( "setVoteEvent()", 100 );
+			}
 		}
 	});
 });
