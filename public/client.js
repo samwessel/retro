@@ -36,7 +36,6 @@ $(function(){
 			var category = $(this).closest(".category").attr("id");
 			var id = ui.draggable.attr("id");
 			var json = JSON.stringify({ text: text,  category: category, id: id });
-			console.log(json);
 
 			socket.send(json);
 			ui.draggable.remove();
@@ -48,8 +47,12 @@ $(function(){
 
 function setVoteEvent(){
 	$('.plus').on('click',function(){
-		var id = $(this).parent().data('id');
-		console.log(id);
+		var id = $(this).parent().attr('id');
+		var text = $(this).parent().text();
+		var category = $(this).closest(".category").attr("id");
+		//need to send the vote to the system
+		var json = JSON.stringify({ text: text,  category: category, voted: 1, id: id });
+		socket.send(json);
 	});
 }
 
@@ -66,11 +69,13 @@ socket.onmessage = function (event) {
   	$("#"+obj.category+" ul").append(
 		$("<li>").text(obj.text)
 		.attr('id', obj.id)
+		.data('votes', obj.votes)
 		.draggable({
 			revert: true
 		})
 		.append('<span class="plus"></span>')
 	);
+	setTimeout ( "setVoteEvent()", 100 );
 }
 
 function hyphenate(text){
