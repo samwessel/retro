@@ -1,5 +1,6 @@
 $(function(){
-	$('#add').on('click',function(){
+	$('form').on('submit',function(e){
+		e.preventDefault();
 		var text = $("#description").val();
 		var json = JSON.stringify({text });
 		console.log(json);
