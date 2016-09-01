@@ -17,24 +17,24 @@ $(function(){
 			return;
 		}
 
-		var json = JSON.stringify({text });
-		console.log(json);
-		socket.send(json);
+		$("#newitems").append($("<div>").addClass("draggable").text(text).draggable({
+			revert: true
+		}));
+
 		$("#description").val("");
 	})
 
-	$( ".draggable" ).draggable({
-		revert: true
-	});
-	
 	$( ".droppable" ).droppable({
+		hoverClass: "drop-hover",
 		drop: function(event, ui) {
-			alert("dropped in category " + $(this).closest(".category").attr("id"));
+			//alert("dropped in category " + $(this).closest(".category").attr("id"));
 
 			var text = ui.draggable.text();
 			var json = JSON.stringify({text });
 			console.log(json);
 			socket.send(json);
+
+			ui.draggable.remove();
 		}
 	});
 });
