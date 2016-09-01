@@ -5,8 +5,8 @@ $(function(){
 	categories.forEach(function(category) {
 		$("#wall").append(
 			$("<div>").addClass("category").attr("id", hyphenate(category))
-				.append($("<h2>").text(category))
-				.append($("<ul>"))
+			.append($("<h2>").text(category))
+			.append($("<ul>"))
 		);
 	});
 
@@ -30,7 +30,7 @@ $(function(){
 		$("#description").val("");
 	})
 
-	$( ".category" ).droppable({
+	$(".category").droppable({
 		hoverClass: "drop-hover",
 		drop: function(event, ui) {
 			var category = $(this).attr("id");
@@ -54,7 +54,6 @@ function setVoteEvent(){
 	$('.plus').off('click');
 	$('.plus').on('click',function(){
 		var id = $(this).parent().attr('id');
-		//need to send the vote to the system
 		var json = JSON.stringify({voted: 1, id: id });
 		socket.send(json);
 	});

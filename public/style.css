@@ -14,13 +14,6 @@ ul,li{
   list-style:none;
 }
 
-ul{
-}
-
-ul li a{
-  text-decoration:none;
-}
-
 ul li, .draggable {
   margin:1em;
   float:left;
@@ -45,7 +38,7 @@ ul li .plus{
   cursor: pointer;
 }
 
-input,button {
+input, button {
 	padding: 3px;
 }
 
@@ -75,4 +68,17 @@ input,button {
 h1, h2 {
   text-align: center;
   margin: 10px;
+}
+
+#sidebar {
+  border: 4px dotted #999;
+  margin: 10px;
+  padding: 1em;
+}
+
+#myitems, .category ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
 }
