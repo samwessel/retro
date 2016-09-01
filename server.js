@@ -24,6 +24,19 @@ wss.on('connection', function(socket) {
 
     var obj = JSON.parse(message);
 
+    if(typeof obj.type != 'undefined'){
+      switch (obj.type) {
+        case 'updatecategory':
+          updatedCategory(obj.id, obj.category);
+          break;
+      
+        default:
+          break;
+      }
+
+      return;
+    }
+
     if(typeof obj.showResults != 'undefined'){
       wss.clients.forEach(function each(client) {
         var json = JSON.stringify({type: 'showresults'});
@@ -74,6 +87,17 @@ wss.on('connection', function(socket) {
   socket.on('close', function() {
   });
 });
+
+function updatedCategory(id, category){
+  cards[id].category = category;
+  var text = cards[id].name;
+  var votes = cards[id].votes;
+  wss.clients.forEach(function each(client) {
+    var json = JSON.stringify({ text: text, category: category, id: id, votes: votes });
+    console.log("Sending to clients: " + json);
+    client.send(json);
+  });
+}
 
 
 function addCardToArray(text, category){

@@ -35,6 +35,16 @@ $(function(){
 		drop: function(event, ui) {
 			var category = $(this).attr("id");
 			var previousCategory = ui.draggable.closest(".category").attr("id")
+
+			if(typeof ui.draggable.attr("id") != 'undefined'){
+				var id = ui.draggable.attr("id");
+				var json = JSON.stringify({ type: 'updatecategory',  category: category, id: id });
+				socket.send(json);
+				ui.draggable.remove();
+				setTimeout ( "setVoteEvent()", 100 );
+				return true;
+			}
+
 			
 			if (category != previousCategory) {
 				var text = ui.draggable.text();
@@ -44,6 +54,9 @@ $(function(){
 				socket.send(json);
 				ui.draggable.remove();
 				setTimeout ( "setVoteEvent()", 100 );
+			}else{
+				var json = JSON.stringify({ type: 'updatecategory',  category: category, id: id });
+				socket.send(json);
 			}
 		}
 	});
