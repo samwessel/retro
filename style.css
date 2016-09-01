@@ -17,7 +17,7 @@ ul,li{
 
 ul{
   overflow:hidden;
-  padding:3em;
+  padding: 10px 10px 10px 0;
 }
 
 ul li a{
@@ -25,14 +25,14 @@ ul li a{
 }
 
 ul li{
-  margin:1em;
+  margin:1em 1em 1em 0;
   float:left;
   color:#000;
   background:#ffc;
   display:block;
   height:10em;
   width:10em;
-  padding:1em;
+  padding: 1em;
   word-break: break-all;
   overflow: hidden;
 }
