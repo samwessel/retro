@@ -43,6 +43,11 @@ $(function(){
 			setTimeout ( "setVoteEvent()", 100 );
 		}
 	});
+
+	$(".showresults").on('click',function(){
+		var json = JSON.stringify({ showResults: true });
+		socket.send(json);
+	});
 });
 
 
@@ -64,8 +69,20 @@ socket.onmessage = function (event) {
 	var json = event.data;
 	var obj = JSON.parse(json);
 
+	if(typeof obj.type != 'undefined'){
+		switch (obj.type) {
+			case 'showresults':
+				showResults();
+				break;
+		
+			default:
+				showResults();
+				break;
+		}
+	}
+
 	if(typeof obj.text == 'undefined'){
-		$("#"+obj.id).attr('data-votes',obj.votes);
+		$("#"+obj.id).data('votes',obj.votes);
 		return;
 	}
 
@@ -80,4 +97,13 @@ socket.onmessage = function (event) {
 
 function hyphenate(text){
 	return text.replace(/[^a-zA-Z ]/g, "").replace(/ +/g, '-').toLowerCase();
+}
+
+
+function showResults(){
+ $('li').each(function(){
+	 var votes = $(this).data().votes;
+	 console.log(votes);
+	 $(this).append('<span class="votes">'+votes+'</span>');
+ });
 }
