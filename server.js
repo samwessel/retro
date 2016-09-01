@@ -55,21 +55,6 @@ wss.on('connection', function(socket) {
         cards[id] = {name: text, category: category};
       }
 
-      console.log(votes);
-
-      if(typeof obj.voted != 'undefined'){
-        
-      console.log(obj.voted + ' = '+ cards[id].votes);
-        if(typeof cards[id].votes == 'undefined'){
-          votes = 1;
-        }else{
-          votes = cards[id].votes;
-          votes += 1;
-        }
-        cards[id] = {name: text, category: category, votes: votes };
-      }
-      console.log(votes);
-
       wss.clients.forEach(function each(client) {
         var json = JSON.stringify({ text: text, category: category, id: id, votes: votes });
         console.log("Sending to clients: " + json);
