@@ -27,17 +27,26 @@ $(function(){
 	$( ".droppable" ).droppable({
 		hoverClass: "drop-hover",
 		drop: function(event, ui) {
-			//alert("dropped in category " + $(this).closest(".category").attr("id"));
+			var cat = $(this).closest(".category").attr("id");
 
 			var text = ui.draggable.text();
 			var json = JSON.stringify({text });
 			console.log(json);
 			socket.send(json);
-
+			
 			ui.draggable.remove();
+			setTimeout ( "setVoteEvent()", 100 );
 		}
 	});
 });
+
+
+function setVoteEvent(){
+	$('.plus').on('click',function(){
+		var id = $(this).parent().data('id');
+		console.log(id);
+	});
+}
 
 var socket = new WebSocket('ws://localhost:8081/');
 socket.onopen = function(event) {
