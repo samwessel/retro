@@ -3,11 +3,11 @@ var categories = ["What went well?", "What could have gone better?"];
 
 $(function(){
 	categories.forEach(function(category) {
-		var e = $('<div class="category" id="'+hyphenate(category)+'"></div>');
-		e.append($("<h2>").text(category))
-		e.append($('<ul>'));
-		e.append($('<div class="droppable"></div>'))
-		$("#container").append(e);
+		$("#container").append(
+			$("<div>").addClass("category").attr("id", hyphenate(category))
+				.append($("<h2>").text(category))
+				.append($("<ul>"))
+		);
 	});
 
 	$('form').on('submit',function(e){
@@ -22,14 +22,15 @@ $(function(){
 			.addClass("draggable")
 			.text(text)
 			.draggable({
-				revert: true
+				revert: true,
+				zIndex: 100
 			})
 		);
 
 		$("#description").val("");
 	})
 
-	$( ".droppable" ).droppable({
+	$( ".category" ).droppable({
 		hoverClass: "drop-hover",
 		drop: function(event, ui) {
 			var text = ui.draggable.text();
@@ -67,12 +68,7 @@ socket.onmessage = function (event) {
 	$("#"+obj.id).remove();
 
   	$("#"+obj.category+" ul").append(
-		$("<li>").text(obj.text)
-		.attr('id', obj.id)
-		.data('votes', obj.votes)
-		.draggable({
-			revert: true
-		})
+		$("<li>").text(obj.text).attr('id', obj.id).data('votes', obj.votes).draggable({ revert: true, zIndex: 100 })
 		.append('<span class="plus"></span>')
 	);
 	setTimeout ( "setVoteEvent()", 100 );
