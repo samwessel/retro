@@ -2,6 +2,9 @@ $(function(){
 	$('form').on('submit',function(e){
 		e.preventDefault();
 		var text = $("#description").val();
+		if(text == ''){
+			return;
+		}
 		var json = JSON.stringify({text });
 		console.log(json);
 		socket.send(json);
