@@ -50,10 +50,8 @@ function setVoteEvent(){
 	$('.plus').off('click');
 	$('.plus').on('click',function(){
 		var id = $(this).parent().attr('id');
-		var text = $(this).parent().text();
-		var category = $(this).closest(".category").attr("id");
 		//need to send the vote to the system
-		var json = JSON.stringify({ text: text,  category: category, voted: 1, id: id });
+		var json = JSON.stringify({voted: 1, id: id });
 		socket.send(json);
 	});
 }
@@ -65,6 +63,11 @@ socket.onopen = function(event) {
 socket.onmessage = function (event) {
 	var json = event.data;
 	var obj = JSON.parse(json);
+
+	if(typeof obj.text == 'undefined'){
+		$("#"+obj.id).attr('data-votes',obj.votes);
+		return;
+	}
 
 	$("#"+obj.id).remove();
 

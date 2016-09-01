@@ -24,6 +24,24 @@ wss.on('connection', function(socket) {
 
     var obj = JSON.parse(message);
 
+    //If a vote feature
+    if(typeof obj.voted != 'undefined'){
+      var id = obj.id;
+      console.log(obj.voted + ' = '+ cards[id].votes);
+
+      votes = cards[id].votes + 1;
+
+      cards[id].votes = votes;
+
+      wss.clients.forEach(function each(client) {
+        var json = JSON.stringify({id: id, votes: votes });
+        console.log("Sending to clients: " + json);
+        client.send(json);
+      });
+
+      return;
+    }
+
     //work out what the user sent to us
     if(typeof obj.text != 'undefined'){
       var text = obj.text;
@@ -48,7 +66,7 @@ wss.on('connection', function(socket) {
           votes = cards[id].votes;
           votes += 1;
         }
-        cards[id] = {name: text, category: category, id: id, votes: votes };
+        cards[id] = {name: text, category: category, votes: votes };
       }
       console.log(votes);
 
