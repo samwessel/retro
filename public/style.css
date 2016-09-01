@@ -49,7 +49,7 @@ input,button {
 	padding: 3px;
 }
 
-#container {
+#wall {
   display: flex;
   align-items: stretch;
   justify-content: center;
