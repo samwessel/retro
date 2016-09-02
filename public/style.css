@@ -15,7 +15,7 @@ ul,li{
   list-style:none;
 }
 
-.retro ul li, .draggable {
+#retro ul li, .draggable {
   margin:1em;
   float:left;
   color:#000;
@@ -28,7 +28,7 @@ ul,li{
   position: relative;
 }
 
-.retro ul li .plus{
+#retro ul li .plus{
   position: absolute;
   bottom:0px;
   right:0px;
@@ -71,7 +71,7 @@ h1, h2 {
   margin: 10px;
 }
 
-.retro li .votes{
+#retro li .votes{
   position: absolute;
   left:0;
   bottom:0;

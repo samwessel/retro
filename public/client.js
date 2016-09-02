@@ -2,6 +2,7 @@ var categories = ["What went well?", "What could have gone better?"];
 //var categories = ["Mad", "Sad", "Glad"];
 
 var showResultsAlways = false;
+var retroID;
 
 $(function(){
 	categories.forEach(function(category) {
@@ -51,7 +52,8 @@ $(function(){
 			if (category != previousCategory) {
 				var text = ui.draggable.text();
 				var id = ui.draggable.attr("id");
-				var json = JSON.stringify({ text: text,  category: category, id: id });
+				console.log(retroID);
+				var json = JSON.stringify({ text: text,  category: category, id: id, retro: retroID });
 
 				socket.send(json);
 				ui.draggable.remove();
@@ -68,6 +70,8 @@ $(function(){
 		socket.send(json);
 	});
 
+	
+
 	$('#addretro').on('submit',function(e){
 		e.preventDefault();
 		var text = $("#retro-name").val();
@@ -75,7 +79,11 @@ $(function(){
 
 		var json = JSON.stringify({ type: 'add-retro', name: text });
 		socket.send(json);
-	})
+	});
+
+	$("#resetbutton").on('click',function(){
+		location.reload();
+	});
 });
 
 
@@ -104,7 +112,7 @@ socket.onmessage = function (event) {
 				showResults();
 				break;
 			case 'retros':
-				addRetrosToPage(obj);
+				addRetrosToPage(obj,socket);
 				break;
 		
 			default:
@@ -146,14 +154,22 @@ function showResults(){
 	});
 }
 
-function addRetrosToPage(retro){
+function addRetrosToPage(retro,socket){
 	var id = retro.id;
 	$("#joinretro").append(
-		$('<li>').text(retro.text).data('id',id.toString())
+		$('<li>').text(retro.text).data('id',id)
 	);
-	console.log(id);
+	setRetroClickEvent(socket);
 }
 
-function AddClickEventToRetroIcons(){
 
+function setRetroClickEvent(socket){
+	$("ul#joinretro li").off('click');
+	$("ul#joinretro li").on('click',function(){
+		retroID = $(this).data('id');
+		$('#welcome').hide();
+		$('#retro').show();
+		var json = JSON.stringify({type: 'selected-retro', id: retroID });
+		socket.send(json);
+	});
 }

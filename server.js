@@ -50,6 +50,9 @@ wss.on('connection', function(socket) {
         case 'add-retro':
           addRetro(obj.name,socket);
           break;
+        case 'selected-retro':
+          selectRetro(obj.id,socket);
+          break;
       
         default:
           break;
@@ -89,10 +92,11 @@ wss.on('connection', function(socket) {
       var text = obj.text;
       var category = obj.category;
       var id = obj.id;
+      var retroID = obj.retro;
       var votes = 0;
 
       if (typeof id == 'undefined') {
-        id = addCardToArray(text, category);
+        id = addCardToArray(text, category, retroID);
       } else {
         cards[id] = {name: text, category: category};
       }
@@ -121,8 +125,8 @@ function updatedCategory(id, category){
 }
 
 
-function addCardToArray(text, category){
-  cards.push({name: text, category: category, votes: 0 });
+function addCardToArray(text, category, retroID){
+  cards.push({name: text, category: category, votes: 0, retro: retroID});
   return cards.length-1;  
 }
 
@@ -137,4 +141,17 @@ function addRetro(text, socket){
     socket.send(json);
   });
   return retros.length-1;  
+}
+
+
+function selectRetro(id,socket){
+  for(var i=0; i<cards.length; i++) {
+      var item = cards[i];
+      console.log(item);
+      if(item.retro == id){
+        var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
+        console.log("Sending to clients: " + json);
+        socket.send(json);
+      }
+  }
 }
