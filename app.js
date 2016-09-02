@@ -13,7 +13,7 @@ var showResults = false
 
 var cards = [];
 
-var wss = new WSS({ port: 80 });
+var wss = new WSS({ port: 8081 });
 wss.on('connection', function(socket) {
 
   for(var i=0; i<cards.length; i++) {
