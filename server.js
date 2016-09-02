@@ -8,6 +8,8 @@ var app = express().use(express.static('public'));
 var server = http.createServer(app);
 server.listen(80, 'http://retro.azurewebsites.net/');
 
+var showResults = false
+
 var cards = [];
 
 var wss = new WSS({ port: 8081 });
@@ -18,12 +20,28 @@ wss.on('connection', function(socket) {
       var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
       console.log("Sending to clients: " + json);
       socket.send(json);
+      json = JSON.stringify({type: 'showresults'});
+      console.log("Sending to clients: " + json);
+      socket.send(json);
   }
 
   socket.on('message', function(message) {
     console.log("Received: " + message);
 
     var obj = JSON.parse(message);
+
+    if(typeof obj.type != 'undefined'){
+      switch (obj.type) {
+        case 'updatecategory':
+          updatedCategory(obj.id, obj.category);
+          break;
+      
+        default:
+          break;
+      }
+
+      return;
+    }
 
     if(typeof obj.showResults != 'undefined'){
       wss.clients.forEach(function each(client) {
@@ -75,6 +93,17 @@ wss.on('connection', function(socket) {
   socket.on('close', function() {
   });
 });
+
+function updatedCategory(id, category){
+  cards[id].category = category;
+  var text = cards[id].name;
+  var votes = cards[id].votes;
+  wss.clients.forEach(function each(client) {
+    var json = JSON.stringify({ text: text, category: category, id: id, votes: votes });
+    console.log("Sending to clients: " + json);
+    client.send(json);
+  });
+}
 
 
 function addCardToArray(text, category){

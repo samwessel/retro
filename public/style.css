@@ -70,6 +70,13 @@ h1, h2 {
   margin: 10px;
 }
 
+li .votes{
+  position: absolute;
+  left:0;
+  bottom:0;
+  padding: 0 0 10px 10px;
+}
+
 #sidebar {
   border: 4px dotted #999;
   margin: 10px;
