@@ -79,7 +79,7 @@ function setVoteEvent(){
 	});
 }
 
-var socket = new WebSocket('/');
+var socket = new WebSocket('ws://retro.azurewebsites.net/');
 //var socket = new WebSocket('ws://localhost:8081/');
 socket.onopen = function(event) {
 }
