@@ -6,8 +6,8 @@ var WSS = require('ws').Server;
 var app = express().use(express.static('public'));
 
 var server = http.createServer(app);
-server.listen(process.env.PORT);
-//server.listen(8080, '127.0.0.1');
+//server.listen(process.env.PORT);
+server.listen(8080, '127.0.0.1');
 
 var showResults = false
 
