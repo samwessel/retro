@@ -67,6 +67,15 @@ $(function(){
 		var json = JSON.stringify({ showResults: true });
 		socket.send(json);
 	});
+
+	$('#addretro').on('submit',function(e){
+		e.preventDefault();
+		var text = $("#retro-name").val();
+		$("#retro-name").val("");
+
+		var json = JSON.stringify({ type: 'add-retro', name: text });
+		socket.send(json);
+	})
 });
 
 
@@ -79,8 +88,8 @@ function setVoteEvent(){
 	});
 }
 
-var socket = new WebSocket('ws://retro.azurewebsites.net/');
-//var socket = new WebSocket('ws://localhost:8081/');
+//var socket = new WebSocket('ws://retro.azurewebsites.net/');
+var socket = new WebSocket('ws://localhost:8081/');
 socket.onopen = function(event) {
 }
 
@@ -91,8 +100,11 @@ socket.onmessage = function (event) {
 	if(typeof obj.type != 'undefined'){
 		switch (obj.type) {
 			case 'showresults':
-			showResultsAlways = true;
+				showResultsAlways = true;
 				showResults();
+				break;
+			case 'retros':
+				addRetrosToPage(obj);
 				break;
 		
 			default:
@@ -132,4 +144,16 @@ function showResults(){
 		var votes = $(this).data().votes;
 		$(this).append('<span class="votes">'+votes+'</span>');
 	});
+}
+
+function addRetrosToPage(retro){
+	var id = retro.id;
+	$("#joinretro").append(
+		$('<li>').text(retro.text).data('id',id.toString())
+	);
+	console.log(id);
+}
+
+function AddClickEventToRetroIcons(){
+
 }

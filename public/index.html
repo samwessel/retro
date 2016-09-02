@@ -9,20 +9,35 @@
 	</head>
 
 	<body>
-		<div class="green-button showresults">Show results</div>
-		<h1>Retro</h1>
-
-		<div id="wall">
+		<div id="welcome">
+			<h1>Welcome</h1>
+			<p>Please select your retro or click to add one and run it.</p>
+			<ul id="joinretro"></ul>
+			<div class="new-retro">
+				<p>Start new retro</p>
+				<form id="addretro">
+					<input type="text" id="retro-name">
+					<input type="submit" id="start" value="Start">
+				</form>
+			</div>
 		</div>
 
-		<div id="sidebar">
-			<form>
-				<input id="description" type="text" />
-				<input type="submit" id="add" value="Add">
-			</form>	
+		<div id="retro">
+			<div class="green-button showresults">Show results</div>
+			<h1>Retro</h1>
 
-			<ul id="myitems">
-			</ul>
+			<div id="wall">
+			</div>
+
+			<div id="sidebar">
+				<form>
+					<input id="description" type="text" />
+					<input type="submit" id="add" value="Add">
+				</form>	
+
+				<ul id="myitems">
+				</ul>
+			</div>
 		</div>
 		
 	</body>

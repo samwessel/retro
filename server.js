@@ -6,25 +6,38 @@ var WSS = require('ws').Server;
 var app = express().use(express.static('public'));
 
 var server = http.createServer(app);
-server.listen(80, 'http://retro.azurewebsites.net/');
-//server.listen(8080, '127.0.0.1');
+//server.listen(80, 'http://retro.azurewebsites.net/');
+server.listen(8080, '127.0.0.1');
 
 var showResults = false
 
+var retros = [];
+  retros.push({name: 'test'});
+  retros.push({name: 'fake'});
 var cards = [];
+var users = [];
 
 var wss = new WSS({ port: 8081 });
 wss.on('connection', function(socket) {
 
-  for(var i=0; i<cards.length; i++) {
-      var item = cards[i];
-      var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
-      console.log("Sending to clients: " + json);
-      socket.send(json);
-      json = JSON.stringify({type: 'showresults'});
-      console.log("Sending to clients: " + json);
-      socket.send(json);
+  //send the user the retro that are in use
+
+  for(var i=0; i<retros.length; i++){
+    var item = retros[i];
+    var json = JSON.stringify({ type: 'retros', text: item.name, id: i.toString()  });
+    console.log("Sending to clients: " + json);
+    socket.send(json);
   }
+
+  // for(var i=0; i<cards.length; i++) {
+  //     var item = cards[i];
+  //     var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
+  //     console.log("Sending to clients: " + json);
+  //     socket.send(json);
+  //     json = JSON.stringify({type: 'showresults'});
+  //     console.log("Sending to clients: " + json);
+  //     socket.send(json);
+  // }
 
   socket.on('message', function(message) {
     console.log("Received: " + message);
@@ -35,6 +48,9 @@ wss.on('connection', function(socket) {
       switch (obj.type) {
         case 'updatecategory':
           updatedCategory(obj.id, obj.category);
+          break;
+        case 'add-retro':
+          addRetro(obj.name,socket);
           break;
       
         default:
@@ -110,4 +126,17 @@ function updatedCategory(id, category){
 function addCardToArray(text, category){
   cards.push({name: text, category: category, votes: 0 });
   return cards.length-1;  
+}
+
+
+function addRetro(text, socket){
+  retros.push({name: text});
+  var i = retros.length-1;
+
+  wss.clients.forEach(function each(client) {
+    var json = JSON.stringify({ type: 'retros', text: text, id: i.toString()  });
+    console.log("Sending to clients: " + json);
+    socket.send(json);
+  });
+  return retros.length-1;  
 }
