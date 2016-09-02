@@ -1,20 +1,19 @@
 {
-  "name": "websockets",
+  "name": "retro",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "",
-  "license": "ISC",
+  "description": "Digital retrospective tool",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/markbrown4/websockets.git"
+    "url": "git+https://github.com/samwessel/retro.git"
   },
+  "author": "",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/markbrown4/websockets/issues"
+    "url": "https://github.com/samwessel/retro/issues"
   },
-  "homepage": "https://github.com/markbrown4/websockets#readme",
-  "description": "",
-  "dependencies": {
-    "express": "^4.13.4",
-    "ws": "^1.1.0"
-  }
+  "homepage": "https://github.com/samwessel/retro#readme"
 }

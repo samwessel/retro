@@ -4,8 +4,9 @@ var express = require('express');
 var WSS = require('ws').Server;
 
 var app = express().use(express.static('public'));
+
 var server = http.createServer(app);
-server.listen(8080, '127.0.0.1');
+server.listen(80, 'http://retro.azurewebsites.net/');
 
 var cards = [];
 
