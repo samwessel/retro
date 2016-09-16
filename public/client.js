@@ -80,7 +80,7 @@ function setVoteEvent(){
 }
 
 //var socket = new WebSocket('ws://retro.azurewebsites.net:8081');
-var socket = new WebSocket('ws://localhost:8081/');
+var socket = new WebSocket('ws://retro.esendex.com');
 socket.onopen = function(event) {
 }
 
